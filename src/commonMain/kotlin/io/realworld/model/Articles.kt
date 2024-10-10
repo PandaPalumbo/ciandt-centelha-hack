@@ -60,10 +60,11 @@ data class Comment(
     val body: String? = null,
     @Transient
     val author: User? = null,
-    val authorId: Int? = null
+    val authorId: Int? = null,
+    var upVote: Int = 0
 ) {
     @PersistenceConstructor
     constructor(
-        id: Int?, articleId: Int?, createdAt: OffsetDateTime?, updatedAt: OffsetDateTime?, body: String?, authorId: Int?
-    ) : this(id, articleId, createdAt, updatedAt, body, null, authorId)
+        id: Int?, articleId: Int?, createdAt: OffsetDateTime?, updatedAt: OffsetDateTime?, body: String?, authorId: Int?, upVote: Int
+    ) : this(id, articleId, createdAt, updatedAt, body, null, authorId, upVote)
 }

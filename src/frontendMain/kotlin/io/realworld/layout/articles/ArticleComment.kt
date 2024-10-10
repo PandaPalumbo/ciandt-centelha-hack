@@ -6,14 +6,9 @@ import io.realworld.model.Article
 import io.realworld.model.Comment
 import io.kvision.core.Container
 import io.kvision.core.onClick
-import io.kvision.html.TAG
-import io.kvision.html.div
-import io.kvision.html.image
-import io.kvision.html.link
-import io.kvision.html.p
-import io.kvision.html.span
-import io.kvision.html.tag
+import io.kvision.html.*
 import io.kvision.types.toStringF
+import io.kvision.utils.px
 
 fun Container.articleComment(state: ConduitState, comment: Comment, article: Article) {
     div(className = "card") {
@@ -27,7 +22,12 @@ fun Container.articleComment(state: ConduitState, comment: Comment, article: Art
                 image(imageSrc, className = "comment-author-img")
             }
             +" &nbsp; "
-            link(comment.author?.username ?: "", "#/@${comment.author?.username}", className = "comment-author")
+            button("", "arrow-up-outline", ButtonStyle.OUTLINEPRIMARY, separator = "&nbsp; ") {
+                span("Up vote! ${if (comment.upVote == 0) "" else comment.upVote}", className = "upVoteCounter")
+                onClick {
+                    ConduitManager.articleCommentUpvote(article.slug!!, comment.id!!)
+                }
+            }
             val createdAtFormatted = comment.createdAt?.toStringF("MMMM D, YYYY")
             span(createdAtFormatted, className = "date-posted")
             if (state.user != null && state.user.username == comment.author?.username) {

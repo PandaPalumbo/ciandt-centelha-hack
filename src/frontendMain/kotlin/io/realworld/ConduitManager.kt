@@ -167,6 +167,13 @@ object ConduitManager : CoroutineScope by CoroutineScope(Dispatchers.Default + S
         }
     }
 
+    fun articleCommentUpvote(slug: String, id: Int) {
+        withProgress {
+            articleService.articleCommentUpvote(slug, id)
+            conduitStore.dispatch(ConduitAction.CommentUpvote(id))
+        }
+    }
+
     fun articleCommentDelete(slug: String, id: Int) {
         withProgress {
             articleService.articleCommentDelete(slug, id)

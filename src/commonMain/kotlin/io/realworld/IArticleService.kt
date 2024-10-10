@@ -34,5 +34,6 @@ interface IArticleService {
     suspend fun deleteArticle(slug: String)
 
     suspend fun articleComment(slug: String, comment: String?): Comment
+    suspend fun articleCommentUpvote(slug: String, id: Int)
     suspend fun articleCommentDelete(slug: String, id: Int)
 }

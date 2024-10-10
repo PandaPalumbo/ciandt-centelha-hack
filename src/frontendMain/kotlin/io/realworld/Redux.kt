@@ -73,6 +73,7 @@ sealed class ConduitAction : RAction {
     data class TagsLoaded(val tags: List<String>) : ConduitAction()
 
     data class AddComment(val comment: Comment) : ConduitAction()
+    data class CommentUpvote(val id: Int) : ConduitAction()
     data class DeleteComment(val id: Int) : ConduitAction()
 
     data class ProfilePage(val feedType: FeedType) : ConduitAction()
@@ -148,6 +149,15 @@ fun conduitReducer(state: ConduitState, action: ConduitAction): ConduitState = w
     }
     is ConduitAction.AddComment -> {
         state.copy(articleComments = listOf(action.comment) + (state.articleComments ?: listOf()))
+    }
+    is ConduitAction.CommentUpvote -> {
+        state.copy(articleComments = state.articleComments?.map {
+            if (it.id == action.id) {
+                it.copy(upVote = (it.upVote.plus(1)))
+            } else {
+                it
+            }
+        })
     }
     is ConduitAction.DeleteComment -> {
         state.copy(articleComments = state.articleComments?.filterNot { it.id == action.id })
