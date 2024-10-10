@@ -123,6 +123,10 @@ class ArticleDao(val connectionFactory: ConnectionFactory, val databaseClient: D
             .rowsUpdated().awaitSingle()
     }
 
+    suspend fun upvoteCommentById(id: Int) {
+
+    }
+
     suspend fun getTagsByArticleId(id: Int): List<String> {
         return databaseClient.execute(
             """SELECT name FROM tags JOIN articles_tags ON tags.id = articles_tags.tag_id 

@@ -34,8 +34,10 @@ data class ConduitState(
     val settingsErrors: List<String>? = null,
     val registerErrors: List<String>? = null,
     val registerUserName: String? = null,
-    val registerEmail: String? = null
-) {
+    val registerEmail: String? = null,
+    val isReplying: Boolean = false,
+    val replyingToCommentId: Int? = null,
+    ) {
     val pageSize = when (feedType) {
         FeedType.USER, FeedType.GLOBAL, FeedType.TAG -> 10
         FeedType.PROFILE, FeedType.PROFILE_FAVORITED -> 5
@@ -54,6 +56,7 @@ data class ConduitState(
 
 sealed class ConduitAction : RAction {
     object AppLoaded : ConduitAction()
+    data class IsReplying(val bool: Boolean, val commentId: Int? = null) : ConduitAction()
     object HomePage : ConduitAction()
     data class SelectFeed(
         val feedType: FeedType,
@@ -103,6 +106,9 @@ fun conduitReducer(state: ConduitState, action: ConduitAction): ConduitState = w
     }
     is ConduitAction.HomePage -> {
         state.copy(view = View.HOME, articles = null)
+    }
+    is ConduitAction.IsReplying -> {
+        state.copy(isReplying = action.bool, replyingToCommentId = action.commentId)
     }
     is ConduitAction.SelectFeed -> {
         state.copy(

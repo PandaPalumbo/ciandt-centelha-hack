@@ -55,6 +55,7 @@ data class Comment(
     @Id
     val id: Int? = null,
     val articleId: Int? = null,
+    val parentCommentId: Int? = null,
     val createdAt: OffsetDateTime? = null,
     val updatedAt: OffsetDateTime? = null,
     val body: String? = null,
@@ -64,6 +65,6 @@ data class Comment(
 ) {
     @PersistenceConstructor
     constructor(
-        id: Int?, articleId: Int?, createdAt: OffsetDateTime?, updatedAt: OffsetDateTime?, body: String?, authorId: Int?
-    ) : this(id, articleId, createdAt, updatedAt, body, null, authorId)
+        id: Int?, articleId: Int?, parentCommentId: Int?,  createdAt: OffsetDateTime?, updatedAt: OffsetDateTime?, body: String?, authorId: Int?
+    ) : this(id, articleId, parentCommentId, createdAt, updatedAt, body, null, authorId)
 }

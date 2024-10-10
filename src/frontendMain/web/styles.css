@@ -1,0 +1,31 @@
+.reply-btn {
+    margin-right: 24px;
+}
+
+.reply-form {
+    align-self: end;
+}
+
+.reply {
+    align-self: end;
+    margin-left: 40px;
+}
+
+.block-reply {
+    background-color: aquamarine;
+}
+
+.comment-body {
+    margin-bottom: 10px; /* Space between comments */
+}
+
+.card {
+    border: 1px solid #e0e0e0; /* Light border for comments */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background */
+}
+
+.reply-btn {
+    margin-left: 10px; /* Space between the reply button and the comment */
+    float: right;
+}

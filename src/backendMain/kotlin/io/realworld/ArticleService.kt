@@ -160,14 +160,15 @@ actual class ArticleService(
         }
     }
 
-    override suspend fun articleComment(slug: String, comment: String?): Comment {
+    override suspend fun articleComment(slug: String, comment: String?, parentCommentId: Int?): Comment {
         return withUser { currentUser ->
             articleDao.addComment(
                 slug, Comment(
                     body = comment,
                     createdAt = OffsetDateTime.now(),
                     updatedAt = OffsetDateTime.now(),
-                    authorId = currentUser.id
+                    authorId = currentUser.id,
+                    parentCommentId = parentCommentId,
                 )
             )?.copy(author = currentUser) ?: throw ServiceException("article not found")
         }

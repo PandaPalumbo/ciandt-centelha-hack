@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS comments (
   id serial NOT NULL PRIMARY KEY,
   body VARCHAR(4096) NOT NULL,
   article_id INTEGER NOT NULL,
+  parent_comment_id INTEGER,
   author_id INTEGER NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL,

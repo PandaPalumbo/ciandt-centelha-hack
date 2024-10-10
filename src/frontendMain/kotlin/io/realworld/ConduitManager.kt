@@ -160,10 +160,16 @@ object ConduitManager : CoroutineScope by CoroutineScope(Dispatchers.Default + S
         }
     }
 
-    fun articleComment(slug: String, comment: String?) {
+    fun articleComment(slug: String, comment: String?, parentCommentId: Int? = null) {
         withProgress {
-            val newComment = articleService.articleComment(slug, comment)
+            val newComment = articleService.articleComment(slug, comment, parentCommentId)
             conduitStore.dispatch(ConduitAction.AddComment(newComment))
+        }
+    }
+
+    fun articleCommentIsReplying(bool: Boolean,  commentId: Int? = null) {
+        withProgress {
+            conduitStore.dispatch(ConduitAction.IsReplying(bool, commentId))
         }
     }
 

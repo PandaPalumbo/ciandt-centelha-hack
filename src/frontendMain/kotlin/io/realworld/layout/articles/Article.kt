@@ -10,6 +10,24 @@ import io.kvision.form.text.TextAreaInput
 import io.kvision.form.text.textAreaInput
 import io.kvision.html.*
 import io.kvision.utils.obj
+import io.realworld.model.Article
+import io.realworld.model.Comment
+
+// Function to organize comments by parent ID
+fun organizeComments(comments: List<Comment>): Map<Int?, List<Comment>> {
+    return comments.groupBy { it.parentCommentId }
+}
+
+// Recursive function to render comments
+fun Container.renderComments(state: ConduitState, comments: List<Comment>, article: Article, parentId: Int? = null, depth: Int = 0) {
+    val organizedComments = organizeComments(comments)
+
+    // Render comments that belong to the current parentId
+    organizedComments[parentId]?.forEach { comment ->
+        articleComment(state, comment, article, depth) // Pass the current depth
+        renderComments(state, comments, article, comment.id, depth + 1) // Increment depth for replies
+    }
+}
 
 fun Container.article(state: ConduitState) {
     if (state.article != null) {
@@ -64,8 +82,8 @@ fun Container.article(state: ConduitState) {
                                 rich = true
                             )
                         }
-                        state.articleComments?.forEach {
-                            articleComment(state, it, article)
+                        state.articleComments?.let { comments ->
+                            renderComments(state, comments, article)
                         }
                     }
                 }
